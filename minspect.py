@@ -9,5 +9,3 @@ def syspath():
 
     for path in sys.path:
         print ' ' + path
-
-
