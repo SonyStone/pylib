@@ -57,3 +57,20 @@ def testpyto_helpstr():
         result = pyto_helpstr(obj)
         assert result == ideal, '%s != %s' % (result, ideal)
     dotest('maya rocks', 'search.html?q=maya+rocks')
+    dotest('maya rocks', 'search.html?q=maya+rocks')
+    dotest(pmc.nodetypes,
+            'generated/pymel.core.nodetypes.html'
+            '#module-pymel.core.nodetypes')
+    dotest(pmc.nodetypes.Joint,
+            'generated/classes/pymel.core.nodetypes/'
+            'pymel.core.nodetypes.Joint.html'
+            '#pynel.core.nodetypes.Joint')
+    dotest(pmc.nodetypes.Joint(),
+            'generated/classes/pymel.core.nodetypes/'
+            'pymel.core.nodetypes.Joint'
+            '#pymel.core.nodetypes.Joint.getTranslation')
+    dotest(pmc.joint,
+            'generated/functions/pymel.core.animation/'
+            'pymel.core.animation.joint.html'
+            '#pymel.core.animation.joint')
+
