@@ -1,6 +1,7 @@
 """This module does blah blah."""
 
 import sys
+import types
 
 import pymel.core as pmc
 
@@ -50,12 +51,37 @@ def pyto_helpstr(obj):
     """Creating a query string for a PyMEL object"""
     if isinstance(obj, basestring):
         return 'search.html?q=%s' % (obj.replace(' ', '+'))
-    return None
+    if not ispymel(obj):
+        return None
+    if isinstance(obj, types.ModuleType):
+        return ('generated/%(module)s.html#module-%(module)s' %
+                dict(module=obj.__name__))
+    if isinstance(obj, types.MethodType):
+        return ('generated/classes/%(module)s/'
+                '%(module)s.%(typename)s.html'
+                '#%(module)s.%(typename)s.%(methname)s' % dict(
+                    module=obj.__module__,
+                    typename=obj.im_class.__name__,
+                    methname=obj.__name__))
+    if isinstance(obj, types.FunctionType):
+        return ('generated/functions/%(module)s/'
+                '%(module)s.%(funcname)s.html'
+                '#%(module)s.%(funcname)s' % dict(
+                    module=obj.__module__,
+                    funcname=obj.__name__))
+    if not isinstance(obj, type):
+        obj = type(obj)
+    return ('generated/classes/%(module)s/'
+            '%(module)s.%(typename)s.html'
+            '#%(module)s.%(typename)s' % dict(
+                module=obj.__module__,
+                typename=obj.__name__))
 
 def testpyto_helpstr():
     def dotest(obj, ideal):
         result = pyto_helpstr(obj)
         assert result == ideal, '%s != %s' % (result, ideal)
+
     dotest('maya rocks', 'search.html?q=maya+rocks')
     dotest('maya rocks', 'search.html?q=maya+rocks')
     dotest(pmc.nodetypes,
@@ -64,13 +90,47 @@ def testpyto_helpstr():
     dotest(pmc.nodetypes.Joint,
            'generated/classes/pymel.core.nodetypes/'
            'pymel.core.nodetypes.Joint.html'
-           '#pynel.core.nodetypes.Joint')
+           '#pymel.core.nodetypes.Joint')
     dotest(pmc.nodetypes.Joint(),
            'generated/classes/pymel.core.nodetypes/'
-           'pymel.core.nodetypes.Joint'
+           'pymel.core.nodetypes.Joint.html'
+           '#pymel.core.nodetypes.Joint')
+    dotest(pmc.nodetypes.Joint().getTranslation,
+           'generated/classes/pymel.core.nodetypes/'
+           'pymel.core.nodetypes.Joint.html'
            '#pymel.core.nodetypes.Joint.getTranslation')
     dotest(pmc.joint,
            'generated/functions/pymel.core.animation/'
            'pymel.core.animation.joint.html'
            '#pymel.core.animation.joint')
+    dotest(object(), None)
+    dotest(10, None)
+    dotest([], None)
+    dotest(sys, None)
 
+
+def ispymel(obj):
+    '''Adding support fpr non-PyMEL objects'''
+    try:
+        module = obj.__module__
+    except AttributeError:
+        try:
+            module = obj.__name__
+        except AttributeError:
+            return None
+    return module.startswith('pymel')
+
+class MyClass (object):
+    def mymethod(self):
+        pass
+    @classmethod
+    def myclassmethod(cls):
+        pass
+    @staticmethod
+    def mystaticmethod():
+        pass
+
+def spam():
+    def eggs():
+        pass
+    pass
