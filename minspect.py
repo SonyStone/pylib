@@ -59,18 +59,18 @@ def testpyto_helpstr():
     dotest('maya rocks', 'search.html?q=maya+rocks')
     dotest('maya rocks', 'search.html?q=maya+rocks')
     dotest(pmc.nodetypes,
-            'generated/pymel.core.nodetypes.html'
-            '#module-pymel.core.nodetypes')
+           'generated/pymel.core.nodetypes.html'
+           '#module-pymel.core.nodetypes')
     dotest(pmc.nodetypes.Joint,
-            'generated/classes/pymel.core.nodetypes/'
-            'pymel.core.nodetypes.Joint.html'
-            '#pynel.core.nodetypes.Joint')
+           'generated/classes/pymel.core.nodetypes/'
+           'pymel.core.nodetypes.Joint.html'
+           '#pynel.core.nodetypes.Joint')
     dotest(pmc.nodetypes.Joint(),
-            'generated/classes/pymel.core.nodetypes/'
-            'pymel.core.nodetypes.Joint'
-            '#pymel.core.nodetypes.Joint.getTranslation')
+           'generated/classes/pymel.core.nodetypes/'
+           'pymel.core.nodetypes.Joint'
+           '#pymel.core.nodetypes.Joint.getTranslation')
     dotest(pmc.joint,
-            'generated/functions/pymel.core.animation/'
-            'pymel.core.animation.joint.html'
-            '#pymel.core.animation.joint')
+           'generated/functions/pymel.core.animation/'
+           'pymel.core.animation.joint.html'
+           '#pymel.core.animation.joint')
 
