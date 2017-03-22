@@ -2,8 +2,32 @@
 
 import sys
 import types
+import webbrowser
 
 import pymel.core as pmc
+
+HELP_2014_ROOT_URL = ('http://download.autodesk.com/global/docs/'
+                      'maya2014/en_us/PyMel/')
+
+HELP_2016_ROOT_URL = ('http://help.autodesk.com/cloudhelp/'
+                      '2016/ENU/Maya-Tech-Docs/PyMel/')
+
+# generated/functions/pymel.core.animation/pymel.core.animation.joint.html
+
+def pmhelp(obj):
+    """Gives help for a pymel or python object.
+
+    If obj is not a PyMEL object, use Python's builtin
+    'help' function.
+    If obj is a string, open a web browser to a search in the
+    PyMEL help for the string.
+    Otherwise, open a web browser to the page for the object.
+    """
+    tail = pyto_helpstr(obj)
+    if tail is None:
+        help(obj)
+    else:
+        webbrowser.open(HELP_2014_ROOT_URL + tail)
 
 def syspath():
     """print syspath"""
