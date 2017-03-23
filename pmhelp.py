@@ -6,13 +6,10 @@ import webbrowser
 
 import pymel.core as pmc
 
-HELP_2014_ROOT_URL = ('http://download.autodesk.com/global/docs/'
-                      'maya2014/en_us/PyMel/')
+HELP_ROOT_URL = ('http://help.autodesk.com/cloudhelp/'
+                 '2016/ENU/Maya-Tech-Docs/PyMel/')
 
-HELP_2016_ROOT_URL = ('http://help.autodesk.com/cloudhelp/'
-                      '2016/ENU/Maya-Tech-Docs/PyMel/')
 
-# generated/functions/pymel.core.animation/pymel.core.animation.joint.html
 
 def pmhelp(obj):
     """Gives help for a pymel or python object.
@@ -27,47 +24,8 @@ def pmhelp(obj):
     if tail is None:
         help(obj)
     else:
-        webbrowser.open(HELP_2016_ROOT_URL + tail)
+        webbrowser.open(HELP_ROOT_URL + tail)
 
-def syspath():
-    """print syspath"""
-
-    print 'sys.path:'
-
-    for path in sys.path:
-        print ' ' + path
-
-
-def info(obj):
-    """Prints information about the object."""
-
-    lines = ['Info for %s' % obj.name(), 'Attributes:']
-    #get the name of all Attributes
-    for atr in obj.listAtr():
-        lines.append(' ' + atr.name())
-        lines.append('MEL type: %s' % obj.type())
-        lines.append('MRO:')
-        lines.extend([' ' + t.__name__ for t in t in type(obj).__mro__])
-
-    result = '\n'.join(lines)
-
-    print result
-
-# Functinon converts a python objcet to a PyMEL help query url.
-    # If the object is a string,
-        # return a query string for a help search.
-    # If the object se a PyMEL object,
-        # return the appropriate url tail.
-        # PyMEL functions, modules, types, instances,
-        # and methods are all valid.
-    # Non-PyMEL objects return None.
-
-# Function takes a python object and returns a full help url.
-    # Calls the first function.
-    # If first function returns None,
-    # just use builtin 'help' funciton.
-    # Otherwise, open a web browser to the help page.
-    #
 
 def pyto_helpstr(obj):
     """Creating a query string for a PyMEL object"""
@@ -99,8 +57,23 @@ def pyto_helpstr(obj):
                 module=obj.__module__,
                 typename=obj.__name__))
 
+
+
+def ispymel(obj):
+    '''Adding support fpr non-PyMEL objects'''
+    try:
+        module = obj.__module__
+    except AttributeError:
+        try:
+            module = obj.__name__
+        except AttributeError:
+            return None
+    return module.startswith('pymel')
+
 def testpyto_helpstr():
+    """Test pyto_helpstr()"""
     def dotest(obj, ideal):
+        """tests function"""
         result = pyto_helpstr(obj)
         assert result == ideal, '%s != %s' % (result, ideal)
 
@@ -129,30 +102,3 @@ def testpyto_helpstr():
     dotest(10, None)
     dotest([], None)
     dotest(sys, None)
-
-
-def ispymel(obj):
-    '''Adding support fpr non-PyMEL objects'''
-    try:
-        module = obj.__module__
-    except AttributeError:
-        try:
-            module = obj.__name__
-        except AttributeError:
-            return None
-    return module.startswith('pymel')
-
-class MyClass (object):
-    def mymethod(self):
-        pass
-    @classmethod
-    def myclassmethod(cls):
-        pass
-    @staticmethod
-    def mystaticmethod():
-        pass
-
-def spam():
-    def eggs():
-        pass
-    pass
