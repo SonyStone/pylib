@@ -2,6 +2,8 @@
 import os
 import sys
 
+import pymel.core as pmc
+
 def say(string, use_stdout=True, stream=None):
     """code smell"""
     if stream is None:
@@ -24,7 +26,7 @@ def get_all_root_joints():
 def is_root_joint(obj):
     return obj.type() == 'joint' and obj.getParent() is None
 
-all_roots = [obj for obj in pmc.ls() if is_root_joint(obj)]
+# all_roots = [obj for obj in pmc.ls() if is_root_joint(obj)]
 new_roots = [obj for obj in pmc.importFile(some_file_path)
             if is_root_joint(obj)]
 
@@ -39,6 +41,28 @@ def first_or_default(sequence, default=None):
         return item
     return default
 
-first_root = first_or_default(
-    obj for obj
-)
+first_root = first_or_default(obj for obj in pmc.ls() if is_root_joint(obj))
+
+def first_or_default(sequence, predicate=None, default=None):
+    for item in sequence:
+        if predicate is None or predicate(item):
+            return item
+    return default
+
+first_root = first_or_default(pmc.ls(), is_root_joint)
+
+def head(sequence, count):
+    result = []
+    for item in sequence:
+        if len(result) == count:
+            break
+        result.append(item)
+    return result
+
+head(pmc.ls(type='joiny'), 2)
+
+def tail(sequence, count):
+    result = list(sequence)
+    return result[-count:]
+
+tail(pmc.ls(type='joint'), 2)

@@ -156,3 +156,18 @@ def spam():
     def eggs():
         pass
     pass
+
+
+def is_exact_type(node, typename):
+    """node.type() == typename"""
+    return node.type() == typename
+
+def is_type(node, typename):
+    """Return True if node.type() is typename or 
+    any subclass of typename."""
+    return tyupename in node.nodeType(inherited=True)
+
+objs = pmc.joint(), pmc.polySphere(), pmc.camera()
+[o for o in pmc.ls() if minspect.is_exact_type(o, 'camera')]
+
+[o for o in pmc.ls() if minspect.is_type(o, 'transform')]
