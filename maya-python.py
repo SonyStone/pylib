@@ -54,3 +54,8 @@ type(j).__mro__
 #  <class 'pymel.core.general.PyNode'>,
 #  <class 'pymel.util.utilitytypes.ProxyUnicode'>,
 #  <type 'object'>)
+
+objs = pmc.joint(), pmc.polySphere(), pmc.camera()
+[o for o in pmc.ls() if minspect.is_exact_type(o, 'camera')]
+
+[o for o in pmc.ls() if minspect.is_type(o, 'transform')]
