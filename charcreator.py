@@ -5,6 +5,12 @@ def convert_hierarchies_main():
 	"""'convert_hierarchies(pmc.selection())'.
 	Prints and provides user feedback so only call from UI.
 	"""
+	nodes = pmc.selected(type='transform')
+	if not nodes:
+		pmc.warning('No tranforms selected.')
+		return
+	new_roots = covert_hierarchies(nodes)
+	print 'Created:', ','.join([r.name() for r in new_roots])
 
 def convert_hierarchies(rootnodes):
 	"""Calls 'convert_hierarchies' for each root node in 'rootnodes'
