@@ -51,3 +51,27 @@ def convert_to_skeleton(rootnode, prefix='skel_', parent=None):
         convert_to_skeleton(child, prefix, j)
     return j
 
+def ancestors(node):
+    """Return a lost of ancestors, starting with the direct parent
+    and ending with the top-level (root) parent."""
+    result = []
+    parent = node.getParent()
+    while parent is not None:
+        result.append(parent)
+        parent = parent.getParent()
+    return result
+
+def uniqueroot(nodes):
+    """Returns a list of the nodes in 'nodes' that are not
+    children of any node in 'nodes'."""
+    result = []
+    def handle_node(n):
+        """If any of the ancestors of n are in realroots,
+        just return, otherwise, append n to realroots.
+        """
+        for ancestor in ancestors(n):
+            if ancestor in nodes:
+                return result.append(n)
+    for node in nodes:
+        handle_node(node)
+    return result
