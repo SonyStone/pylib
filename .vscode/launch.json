@@ -6,7 +6,7 @@
 		"type": "python",
 		"request": "launch",
 		"stopOnEntry": true,
-		"pythonPath": "C:/Program Files/Autodesk/Maya2016/bin/mayapy.exe",
+		"pythonPath": "C:\\Program Files\\Autodesk\\Maya2016\\bin\\mayapy.exe",
 		"program": "${file}",
 		"cwd": null,
 		"console": "integratedTerminal",
