@@ -4,30 +4,14 @@ GREEN = 14
 BLUE = 6
 YELLOW = 17
 
-def safe_setparent(node, parent):
-    """'node,setParent(parent)' if 'parent' is
-    not the same as 'node''s existing parent.
-    """
-    if node.getParent() != parent:
-        node.setParent(parent)
-
-def convertto_joint(node, parent, prefix):
-    j = pmc.joint(name=prefix + node.name())
-    safe_setparent(j, parent)
-    j.translate.set(node.translate.get())
-    j.rotate.set(node.rotate.get())
-    def calc_wirecolor():
-        x = j.translateX.get()
-        if x < 0.001:
-            return GREEN
-        elif x > 0.001:
-            return BLUE
-        else:
-            return YELLOW
-    j.overrideColor.set(calc_wirecolor())
-    return j
-
-def convert_to_skeleton(rootnode, prefix='skel_', parent=None):
+def convert_to_skeleton(
+        rootnode,
+        prefix='skel_',
+        joint_size=1.0,
+        lcol=BLUE,
+        rcol=GREEN,
+        ccol=YELLOW,
+        parent=None):
     """Converts a hierarchy of nodes into joints that have the
     same transform, with their name prefixed with 'prefix'.
     Return the newly created root node.
@@ -46,10 +30,38 @@ def convert_to_skeleton(rootnode, prefix='skel_', parent=None):
 
     if parent is None:
         _parent = rootnode.getParent()
-    j = convertto_joint(rootnode, _parent, prefix)
+    j = convertto_joint(rootnode, _parent, prefix, joint_size, lcol, rcol, ccol)
     for child in rootnode.children():
         convert_to_skeleton(child, prefix, j)
     return j
+
+
+def safe_setparent(node, parent):
+    """'node,setParent(parent)' if 'parent' is
+    not the same as 'node''s existing parent.
+    """
+    if node.getParent() != parent:
+        node.setParent(parent)
+
+def convertto_joint(node, parent, prefix,
+                    jnt_size, lcol, rcol, ccol):
+    j = pmc.joint(name=prefix + node.name())
+    safe_setparent(j, parent)
+    j.translate.set(node.translate.get())
+    j.rotate.set(node.rotate.get())
+    j.setRadius(jnt_size)
+    def calc_wirecolor():
+        x = j.translateX.get()
+        if x < 0.001:
+            return rcol
+        elif x > 0.001:
+            return lcol
+        else:
+            return ccol
+    j.overrideColor.set(calc_wirecolor())
+    return j
+
+
 
 def ancestors(node):
     """Return a lost of ancestors, starting with the direct parent

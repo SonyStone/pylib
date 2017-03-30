@@ -1,3 +1,6 @@
+Python for Maya
+
+PYTHONPATH=$PYTHONPATH:~/mayapybook/pylib
 # Maya Python
 
 import maya.standalone
