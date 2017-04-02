@@ -1,21 +1,37 @@
 {
 	"version": "0.2.0",
 	"configurations": [
-	{
-		"name": "PyMel",
-		"type": "python",
-		"request": "launch",
-		"stopOnEntry": true,
-		"pythonPath": "C:\\Program Files\\Autodesk\\Maya2016\\bin\\mayapy.exe",
-		"program": "${file}",
-		"cwd": null,
-		"console": "integratedTerminal",
-		"debugOptions": [
-			"WaitOnAbnormalExit",
-			"WaitOnNormalExit",
-			"RedirectOutput"
-		]
-	},
+		{
+			"name": "PyMel integratedTerminal",
+			"type": "python",
+			"request": "launch",
+			"stopOnEntry": true,
+			"pythonPath": "${config.python.mayapyPath}",
+			"program": "${file}",
+			"cwd": null,
+			"console": "integratedTerminal",
+			"debugOptions": [
+				"WaitOnAbnormalExit",
+				"WaitOnNormalExit",
+				"RedirectOutput"
+			]
+		},
+		{
+			"name": "PyMel externalTerminal",
+			"type": "python",
+			"request": "launch",
+			"stopOnEntry": true,
+			"pythonPath": "${config.python.mayapyPath}",
+			"program": "${file}",
+			"cwd": null,
+			"console": "externalTerminal",
+			"env": null,
+			"envFile": "${workspaceRoot}/.env",
+			"debugOptions": [
+				"WaitOnAbnormalExit",
+				"WaitOnNormalExit"
+			]
+		},
 		{
 			"name": "Python",
 			"type": "python",
