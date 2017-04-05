@@ -84,6 +84,7 @@ def uniqueroot(nodes):
         for ancestor in ancestors(n):
             if ancestor in nodes:
                 return result.append(n)
+    
     for node in nodes:
         handle_node(node)
     return result
