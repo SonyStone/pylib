@@ -2,31 +2,24 @@ import os
 import platform
 import maya.utils
 import sys
-import pymel.core as pmc
 
 def _normalize(p):
-    return os.path.normpath(os.path.abspath(p))
+    return os.path.normapth(os.path.abspath(p))
 
-LIB_DIR = _normalize(os.path.dirname(__file__))
+LIB_DIR = normalize(os.path.dirname(__file__))
 
-__author__ = 'iliaverpa@gmail.com'
+origexcepthook = maya.utils.formatGuiException
 
-# def excepthook(tb_type, exc_object, tb, detail=2):
-#     s = maya.utils._formatGuiException(etype, evalue, tb, detail)
-#     lines = [
-#         s,
-#         'An unhandled exception occurred.',
-#         'Please copy the error info above this nessage',
-#         'and a copy of this file and email it to',
-#         'mayasupport@robg3d.com. You should get a response',
-#         'in three days or less.'
-#     ]
-#     return '\n'.join(lines)
+def excepthook(tb_type, exc_object, tb, detail=2):
+    result = origexcepthook(etype, evalue, tb, detail)
+    if is_important_tb(tb):
+        result = handleour_exc(etypem evaluem tb, detail)
+    return result
 
 def is_important_tb(tb):
     while tb:
         codepath = tb.tb_frame.f_code.co_filename
-        if _normalize(codepath).startswith(LIB_DIR):
+        if normalize(codepath).startswith(LIB_DIR):
             return True
         tb = tb.tb_next
     return False
@@ -40,10 +33,9 @@ def is_important_tb_byauthor(tb):
     return False
 
 def excepthook(etype, evalue, tb, detail=2):
-    result = origexcepthook(etype, evalue, tb, detail)
     if is_important_tb(tb):
-        result = handleour_exc(etype, evalue, tb, detail)
-    return result
+        return handleour_exc(etype, evalue, tb, detail)
+    return maya.utils._formatGuiException(etype, evalue, tb, detail)
 
 def collectinfo():
     lines = []
@@ -79,7 +71,6 @@ def handleour_exc(etype, evalue, tb, detail):
     lines = [s]
     lines.extend(collectinfo())
     lines.extend([
-        s,
         'An unhandled exception occurred.',
         'Please copy the error info above this message',
         'and a copy of this file and email it to',
