@@ -5,16 +5,19 @@ def timeToCurve():
     def playbackToKeys(obj):
         first = 0
         last = 1
-        startTime = playbackOptions(query=True, minTime=True)
-        endTime = playbackOptions(query=True, maxTime=True)
+        playbackTime = [
+            playbackOptions(query=True, minTime=True),
+            playbackOptions(query=True, maxTime=True)
+        ]
         
-
-        while obj.numKeys() > 0:
+        while obj.numKeys() > first:
             obj.remove(first)
         
-        obj.addKey(endTime, endTime, tangentInType='linear')
-        obj.addKey(startTime, startTime, tangentInType='linear')
-    
+        for index in range(2):
+            obj.addKey(playbackTime[index], playbackTime[index], tangentInType='spline', setOutTangentType='spline' )
+
+        obj.setPreInfinityType('linear', change=None)
+        obj.setPostInfinityType('linear', change=None)
         return obj
 
     time = ls(type="time")[0]
