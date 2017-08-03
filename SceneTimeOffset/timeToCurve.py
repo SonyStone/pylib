@@ -17,6 +17,7 @@ def timeToCurve():
     
         return obj
 
+    time = ls(type="time")[0]
     timeConnectedAttributes = time.connections(plugs=True)
 
     animTimeCurve = nodetypes.AnimCurveTU(name='animTimeCurve1')
