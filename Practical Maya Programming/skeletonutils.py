@@ -51,6 +51,8 @@ def convertto_joint(node, parent, prefix,
     j.rotate.set(node.rotate.get())
     j.setRadius(jnt_size)
     def calc_wirecolor():
+        """REturn Wire color
+        """
         x = j.translateX.get()
         if x < 0.001:
             return rcol
@@ -77,14 +79,14 @@ def uniqueroot(nodes):
     """Returns a list of the nodes in 'nodes' that are not
     children of any node in 'nodes'."""
     result = []
-    def handle_node(n):
-        """If any of the ancestors of n are in realroots,
-        just return, otherwise, append n to realroots.
+    def handle_node(node):
+        """If any of the ancestors of node are in realroots,
+        just return, otherwise, append node to realroots.
         """
-        for ancestor in ancestors(n):
+        for ancestor in ancestors(node):
             if ancestor in nodes:
-                return result.append(n)
-    
+                return result.append(node)
+
     for node in nodes:
         handle_node(node)
     return result

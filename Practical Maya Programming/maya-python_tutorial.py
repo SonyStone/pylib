@@ -33,6 +33,7 @@ for a in dir(xform):
 attrs = xform.listAttr()
 
 methods
+
 # [<bound method Transform.__add__ of nt.Transform(u'pSphere1')>,
 
 # ProxyUnicode -> PyNode -> DependNode -> ContainerBase -> Entity -> DagNode -> Transform -> Joint
@@ -62,3 +63,30 @@ objs = pmc.joint(), pmc.polySphere(), pmc.camera()
 [o for o in pmc.ls() if minspect.is_exact_type(o, 'camera')]
 
 [o for o in pmc.ls() if minspect.is_type(o, 'transform')]
+
+
+""" Incertung the subroutine (207 /592) """
+
+leftfoot = pmc.polySphere(name='left_foot')[0]
+leftfoot.translate.set(5, 0, 0)
+# ...other code that changes left_foot
+rightfoot = pmc.polySphere(name='right_foot')[0]
+rightfoot.translate.set(-5, 0, 0)
+# ...same code, but for right_foot
+
+#refactor
+
+def makefoot(prefix, x=1):
+    foot = pmc.polySphere(name=prefix + '_foot')[0]
+    foot.translate.set(5 * x, 0, 0)
+    # ...other code that changes foot
+    return foot
+leftfoot = makefoot('left', 1)
+roghtfoot = makefoot('right', -1)
+
+
+pmn.undoInfo(openChunk=True)
+try:
+    leftfoot = makefoot('left', 1)
+finally:
+    pmc.undoInfo

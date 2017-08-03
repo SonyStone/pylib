@@ -2,4 +2,8 @@
 {
 	"python.mayapyPath": "mayapy"
 	//"python.mayapyPath": "C:\\Program Files\\Autodesk\\Maya2016.5\\bin\\mayapy.exe"
+
+	"files.exclude": {
+		"**/*.pyc": true
+	}
 }
