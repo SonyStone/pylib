@@ -51,14 +51,14 @@ def collectinfo():
     lines.append(' Maya Scene: ' + pmc.sceneName())
 
     lines.append('Maya/Python Info')
-    lines.append(' Maya Version: ' + pmc.about(version=True))
-    lines.append(' Qt Version: ' + pmc.about(qtVersion=True))
-    lines.append(' Maya64: ' + str(pmc.about(is64=True)))
+    lines.append(' Maya Version: ' + pmc._about(version=True))
+    lines.append(' Qt Version: ' + pmc._about(qtVersion=True))
+    lines.append(' Maya64: ' + str(pmc._about(is64=True)))
     lines.append(' PyVersion: '+ sys.version)
     lines.append(' PyExe: ' + sys.executable)
 
     lines.append('Machine Info')
-    lines.append(' OS: ' + pmc.about(os=True))
+    lines.append(' OS: ' + pmc._about(os=True))
     lines.append(' Node: ' + platform.node())
     lines.append(' OSRelease: ' + platform.release())
     lines.append(' OSVersion: ' + platform.version())
