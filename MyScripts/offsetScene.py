@@ -14,14 +14,14 @@ def setPlaybackTimeKeys(animCurve):
     while animCurve.numKeys() > first:
         animCurve.remove(first)
 
-
     for index in range(len(playbackTime)):
         animCurve.addKey(playbackTime[index], playbackTime[index], tangentInType='smooth', tangentOutType='smooth' )
-
 
     animCurve.setPreInfinityType('linear', change=None)
     animCurve.setPostInfinityType('linear', change=None)
     return animCurve
+
+
 def getTimeConnectedAttributes():
     time = ls(type="time")[0]
     return time.connections(plugs=True)
@@ -36,10 +36,7 @@ def connectAllTimeToNewTimeCurve():
     if getTimeConnectedAttributes():
         timeCurve = nodetypes.AnimCurveTU(name='timeCurve1')
         setPlaybackTimeKeys(timeCurve)
-
-
         reconnectAttributes(timeCurve.output, getTimeConnectedAttributes())
-
 
 
 def isPlaybackNotAtStart(startTime):
